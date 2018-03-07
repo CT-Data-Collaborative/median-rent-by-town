@@ -129,5 +129,5 @@ write.table(
     sep = ",",
     row.names = F,
     col.names = T,
-    na = "-9999" 
+    na = "-6666" 
 )
