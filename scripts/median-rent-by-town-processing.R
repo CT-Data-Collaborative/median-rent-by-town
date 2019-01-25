@@ -23,14 +23,14 @@ path_to_raw <- (paste0(getwd(), "/", raw_location))
 options(scipen=999)
 acsdata <- getACSData(
     getCTGeos("town"),
-    yearList = 2010:2016,
+    yearList = 2010:2017,
     table = "DP04"
 )
 
 med_rent <- data.table()
 for (data in acsdata) {
     year <- data@endyear
-    if (year %in% c(2015, 2016)) {
+    if (year %in% c(2015, 2016, 2017)) {
       median_rent <- acsSum(data, 267, "Median Rent") #VC191
     } else {
       median_rent <- acsSum(data, 263, "Median Rent") #VC185, VC189
@@ -125,7 +125,7 @@ data_long_final <- data_long_final %>%
 
 write.table(
     data_long_final,
-    file.path("data", "median-rent-town-2016.csv"),
+    file.path("data", "median-rent-town-2017.csv"),
     sep = ",",
     row.names = F,
     col.names = T,
