@@ -23,14 +23,14 @@ path_to_raw <- (paste0(getwd(), "/", raw_location))
 options(scipen=999)
 acsdata <- getACSData(
     getCTGeos("town"),
-    yearList = 2010:2017,
+    yearList = 2010:2018,
     table = "DP04"
 )
 
 med_rent <- data.table()
 for (data in acsdata) {
     year <- data@endyear
-    if (year %in% c(2015, 2016, 2017)) {
+    if (year %in% c(2015, 2016, 2017, 2018)) {
       median_rent <- acsSum(data, 267, "Median Rent") #VC191
     } else {
       median_rent <- acsSum(data, 263, "Median Rent") #VC185, VC189
@@ -45,6 +45,9 @@ for (data in acsdata) {
     names(estimates)[names(estimates) == "HC01_VC185.Estimate; GROSS RENT - Median (dollars)"] <- "Median Rent"
     names(estimates)[names(estimates) == "HC01_VC189.Estimate; GROSS RENT - Occupied units paying rent - Median (dollars)"] <- "Median Rent"
     names(estimates)[names(estimates) == "HC01_VC191.Estimate; GROSS RENT - Occupied units paying rent - Median (dollars)"] <- "Median Rent"
+    
+    names(estimates)[names(estimates) == "DP04_0132E.Estimate!!GROSS RENT!!Median (dollars)"] <- "Median Rent"
+    names(estimates)[names(estimates) == "DP04_0134E.Estimate!!GROSS RENT!!Occupied units paying rent!!Median (dollars)"] <- "Median Rent"
 
     estimates <- melt(
         estimates,
@@ -63,6 +66,9 @@ for (data in acsdata) {
     names(moes)[names(moes) == "HC01_VC185.Estimate; GROSS RENT - Median (dollars)"] <- "Median Rent"
     names(moes)[names(moes) == "HC01_VC189.Estimate; GROSS RENT - Occupied units paying rent - Median (dollars)"] <- "Median Rent"
     names(moes)[names(moes) == "HC01_VC191.Estimate; GROSS RENT - Occupied units paying rent - Median (dollars)"] <- "Median Rent"
+    
+    names(moes)[names(moes) == "DP04_0132E.Estimate!!GROSS RENT!!Median (dollars)"] <- "Median Rent"
+    names(moes)[names(moes) == "DP04_0134E.Estimate!!GROSS RENT!!Occupied units paying rent!!Median (dollars)"] <- "Median Rent"
     
     moes <- melt(
         moes,
@@ -125,7 +131,7 @@ data_long_final <- data_long_final %>%
 
 write.table(
     data_long_final,
-    file.path("data", "median-rent-town-2017.csv"),
+    file.path("data", "median-rent-town-2018.csv"),
     sep = ",",
     row.names = F,
     col.names = T,
